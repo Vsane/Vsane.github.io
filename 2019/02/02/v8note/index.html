@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="还不知道考研结果怎么样，哎，不好好复习就只能看天了，希望今年好运不断">
+<meta name="keywords" content="v8,browser">
+<meta property="og:type" content="article">
+<meta property="og:title" content="V8 笔记">
+<meta property="og:url" content="https://vsane.github.io/2019/02/02/v8note/index.html">
+<meta property="og:site_name" content="V4kst1z&#39;s Blog">
+<meta property="og:description" content="还不知道考研结果怎么样，哎，不好好复习就只能看天了，希望今年好运不断">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://static.zybuluo.com/dane909/2uis1o47hmekaug4tiogkcqk/Snipaste_2019-02-01_17-28-54.png">
+<meta property="og:image" content="http://static.zybuluo.com/dane909/yl7j8nqyefsudtb82v9s9785/properties-backing-store-empty.png">
+<meta property="og:image" content="http://static.zybuluo.com/dane909/gd6qr4adug7k37obw0ouqstm/properties-backing-store-array.png">
+<meta property="og:image" content="http://static.zybuluo.com/dane909/4w9p0c0rg0yhqwjg9dz9o5vx/properties-backing-store-dictionary.png">
+<meta property="og:updated_time" content="2019-02-02T11:35:11.442Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="V8 笔记">
+<meta name="twitter:description" content="还不知道考研结果怎么样，哎，不好好复习就只能看天了，希望今年好运不断">
+<meta name="twitter:image" content="http://static.zybuluo.com/dane909/2uis1o47hmekaug4tiogkcqk/Snipaste_2019-02-01_17-28-54.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="V4kst1z's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://vsane.github.io/2019/02/02/v8note/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>V8 笔记 | V4kst1z's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">V4kst1z's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tag"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://vsane.github.io/2019/02/02/v8note/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="V4kst1z">
+      <meta itemprop="description" content="Bin Dog">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="V4kst1z's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">V8 笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-02-02 19:33:17 / Modified: 19:35:11" itemprop="dateCreated datePublished" datetime="2019-02-02T19:33:17+08:00">2019-02-02</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/02/v8note/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/02/02/v8note/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>还不知道考研结果怎么样，哎，不好好复习就只能看天了，希望今年好运不断<br><a id="more"></a></p>
+<h1 id="Data-Types"><a href="#Data-Types" class="headerlink" title="Data Types"></a>Data Types</h1><h2 id="Efficiently-Representing-Values-and-Tagging"><a href="#Efficiently-Representing-Values-and-Tagging" class="headerlink" title="Efficiently Representing Values and Tagging"></a>Efficiently Representing Values and Tagging</h2><p>在 <code>javascript</code> 的规范中，所有的数都是用 <code>8</code> 字节 <code>double</code> 浮点型表示的，在 <code>V8</code> 中为了提高效率，只用了 <code>32 bit</code>，如下最低为用来区分 <code>Small Integers</code> 和 <code>Objects</code><br><img src="http://static.zybuluo.com/dane909/2uis1o47hmekaug4tiogkcqk/Snipaste_2019-02-01_17-28-54.png" alt="Snipaste_2019-02-01_17-28-54.png-111.2kB"><br>在 <code>64 bit</code> 情况下，使用 <code>32 bit</code> 表示整数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[32 bit sign][31 bits zero padding]0</span><br><span class="line">0x1337 =&gt; 0x00001337`00000000</span><br></pre></td></tr></table></figure></p>
+<p>长度大于 <code>31 bits</code> 的整数 <code>boxed</code>(想不出来一个准确的翻译)</p>
+<h2 id="Objects"><a href="#Objects" class="headerlink" title="Objects"></a>Objects</h2><h3 id="Structure"><a href="#Structure" class="headerlink" title="Structure"></a>Structure</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">+-------------------+</span><br><span class="line">|  Object           |    +----&gt; +------------------+     +----&gt;  +------------------+</span><br><span class="line">|-------------------|    |      |  FixedArray      |     |       |  FixedArray      |</span><br><span class="line">|  Map              |    |      |------------------|     |       |------------------|</span><br><span class="line">|-------------------|    |      |  Map             |     |       |  Map             |</span><br><span class="line">|  Extra Properties |----+      |------------------|     |       |------------------|</span><br><span class="line">|-------------------|           |  Length          |     |       |  Length          |</span><br><span class="line">|  Elements         |------+    |------------------|     |       |------------------|</span><br><span class="line">|-------------------|      |    |  Property &quot;poo&quot;  |     |       |  Property &quot;0&quot;    |</span><br><span class="line">|  Property &quot;foo&quot;   |      |    |------------------|     |       |------------------|</span><br><span class="line">|-------------------|      |    |  Property &quot;baz&quot;  |     |       |  Property &quot;1&quot;    |</span><br><span class="line">|  Property &quot;bar&quot;   |      |    +__________________+     |       +__________________+</span><br><span class="line">+___________________+      |                             |</span><br><span class="line">                           |                             |</span><br><span class="line">                           |                             |</span><br><span class="line">                           +-----------------------------+</span><br></pre></td></tr></table></figure>
+<h3 id="Object-Properties"><a href="#Object-Properties" class="headerlink" title="Object Properties"></a>Object Properties</h3><blockquote>
+<ul>
+<li><code>Object</code> 是属性的集合</li>
+<li>属性名字必须为字符串</li>
+<li><code>Javascript</code> 可以看作具有长度属性的 <code>Object</code></li>
+</ul>
+</blockquote>
+<h3 id="HashTables-and-Hash-Codes"><a href="#HashTables-and-Hash-Codes" class="headerlink" title="HashTables and Hash Codes"></a>HashTables and Hash Codes</h3><p><code>Map, Set, WeakSet</code>, 和 <code>WeakMap</code> 都是通过 <code>HashTable</code> 实现的，使用 <code>hash</code> 函数将给定的 <code>key</code> 映射到 <code>HashTable</code> 中。在 <code>V8</code> 中，<code>hash</code> 函数会返回一个随机值，用于存储。如果 <code>key</code> 是 <code>object</code> ，那返回的对象将存储在 <code>object</code> 的 <code>private symbol</code> 上。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function GetObjectHash(key) &#123;</span><br><span class="line">  let hash = key[hashCodeSymbol];</span><br><span class="line">  if (IS_UNDEFINED(hash)) &#123;</span><br><span class="line">    hash = (MathRandom() * 0x40000000) | 0;</span><br><span class="line">    if (hash === 0) hash = 1;</span><br><span class="line">    key[hashCodeSymbol] = hash;</span><br><span class="line">  &#125;</span><br><span class="line">  return hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在 <code>Object</code> 添加到 <code>hashtable</code> 前不需要为其保留内存，<code>V8</code> 也可以像使用 <code>Inline Caches</code> 去寻找 <code>Object</code> 属性信息一样去寻找 <code>hashcode</code>，这在 <code>monomorphic IC</code> 查找中非常有效，即 <code>key</code> 拥有相同的 <code>hidden class</code>，但是真实的程序中 <code>key</code> 往往具有不同的 <code>hidden class</code>，导致 <code>megamorphic IC</code> 查找效率降低。</p>
+<h4 id="Hiding-the-hash-code"><a href="#Hiding-the-hash-code" class="headerlink" title="Hiding the hash code"></a>Hiding the hash code</h4><p><code>elements backing store</code> 中的数组大小没有上限，而 <code>properties backing store</code> 数组大小最大为 <code>1022</code>，当超过这个限制的时候 <code>properties backing store</code> 会使用字典存储。</p>
+<h5 id="The-properties-backing-store-is-empty"><a href="#The-properties-backing-store-is-empty" class="headerlink" title="The properties backing store is empty"></a>The properties backing store is empty</h5><p>直接把 <code>hashcode</code> 存储在 <code>JSObject</code> 的属性指向的内存。<br><img src="http://static.zybuluo.com/dane909/yl7j8nqyefsudtb82v9s9785/properties-backing-store-empty.png" alt="properties-backing-store-empty.png-3kB"></p>
+<h4 id="The-properties-backing-store-is-an-array"><a href="#The-properties-backing-store-is-an-array" class="headerlink" title="The properties backing store is an array"></a>The properties backing store is an array</h4><p>使用 <code>Array</code> 的 <code>length</code> 字段的 <code>11-31</code> 位存储 <code>hashcode</code><br><img src="http://static.zybuluo.com/dane909/gd6qr4adug7k37obw0ouqstm/properties-backing-store-array.png" alt="properties-backing-store-array.png-5.7kB"></p>
+<h4 id="The-properties-backing-store-is-a-dictionary"><a href="#The-properties-backing-store-is-a-dictionary" class="headerlink" title="The properties backing store is a dictionary"></a>The properties backing store is a dictionary</h4><p>将字典大小增加一个 <code>word</code> 并将 <code>hashcode</code> 存储在 <code>header</code> 后。<br><img src="http://static.zybuluo.com/dane909/4w9p0c0rg0yhqwjg9dz9o5vx/properties-backing-store-dictionary.png" alt="properties-backing-store-dictionary.png-4.1kB"></p>
+<h3 id="Fast-In-Object-Properties"><a href="#Fast-In-Object-Properties" class="headerlink" title="Fast, In-Object Properties"></a>Fast, In-Object Properties</h3><p><code>V8</code> 使用 <code>maps</code> 来描述对象的数据结构，<code>map</code> 包含对象的大小和构造函数及原型信息。使用相同构造函数创建的对象具有相同的属性集，具有相同结构的对象共享 <code>map</code>。通过 <code>transition descriptor</code> 来添加其他属性，<code>transition descriptor</code>指向其他 <code>map</code>。</p>
+<h4 id="Assigning-Properties-inside-Constructor-Call"><a href="#Assigning-Properties-inside-Constructor-Call" class="headerlink" title="Assigning Properties inside Constructor Call"></a>Assigning Properties inside Constructor Call</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Point &#123;</span><br><span class="line">  constructor(x, y) &#123;</span><br><span class="line">    // Map M0</span><br><span class="line">    //  &quot;x&quot;: Transition to M1 at offset 12</span><br><span class="line"></span><br><span class="line">    this.x = x</span><br><span class="line"></span><br><span class="line">    // Map M1</span><br><span class="line">    //  &quot;x&quot;: Field at offset 12</span><br><span class="line">    //  &quot;y&quot;: Transition to M2 at offset 16</span><br><span class="line"></span><br><span class="line">    this.y = y</span><br><span class="line"></span><br><span class="line">    // Map M2</span><br><span class="line">    //  &quot;x&quot;: Field at offset 12</span><br><span class="line">    //  &quot;y&quot;: Field at offset 16</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Point</code> starts out without any fields with <code>M0</code></li>
+<li><code>this.x =x</code> -&gt; map pointer set to <code>M1</code> and value <code>x</code> is stored at offset <code>12</code> and <code>&quot;x&quot; Transition</code> descriptor added to <code>M0</code></li>
+<li><code>this.y =y</code> -&gt; map pointer set to <code>M2</code> and value <code>y</code> is stored at offset <code>16</code> and <code>&quot;y&quot; Transition</code> descriptor added to <code>M1</code></li>
+</ul>
+<h4 id="Assigning-More-Properties-Later"><a href="#Assigning-More-Properties-Later" class="headerlink" title="Assigning More Properties Later"></a>Assigning More Properties Later</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Point(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Map M2</span></span><br><span class="line"><span class="comment">//  "x": Field at offset 12</span></span><br><span class="line"><span class="comment">//  "y": Field at offset 16</span></span><br><span class="line"><span class="comment">//  "z": Transition at offset 20</span></span><br><span class="line"></span><br><span class="line">p.z = z</span><br><span class="line"></span><br><span class="line"><span class="comment">// Map M3</span></span><br><span class="line"><span class="comment">//  "x": Field at offset 12</span></span><br><span class="line"><span class="comment">//  "y": Field at offset 16</span></span><br><span class="line"><span class="comment">//  "z": Field at offset 20</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>assigning <code>z</code> later<ul>
+<li>create <code>M3</code>, a copy of <code>M2</code></li>
+<li>add <code>Transition</code> descriptor to <code>M2</code></li>
+<li>add <code>Field</code> descriptor to <code>M3</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="Assigning-Same-Properties-in-Different-Order"><a href="#Assigning-Same-Properties-in-Different-Order" class="headerlink" title="Assigning Same Properties in Different Order"></a>Assigning Same Properties in Different Order</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(x, y, reverse) &#123;</span><br><span class="line">    <span class="comment">// Map M0</span></span><br><span class="line">    <span class="comment">//  "x": Transition to M1 at offset 12ak</span></span><br><span class="line">    <span class="comment">//  "y": Transition to M2 at offset 12</span></span><br><span class="line">    <span class="keyword">if</span> (reverse) &#123;</span><br><span class="line">      <span class="comment">// variation 1</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// Map M1</span></span><br><span class="line">      <span class="comment">//  "x": Field at offset 12</span></span><br><span class="line">      <span class="comment">//  "y": Transition to M4 at offset 16</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">this</span>.x = x</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Map M4</span></span><br><span class="line">      <span class="comment">//  "x": Field at offset 12</span></span><br><span class="line">      <span class="comment">//  "y": Field at offset 16</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">this</span>.y = y</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// variation 2</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// Map M2</span></span><br><span class="line">      <span class="comment">//  "y": Field at offset 12</span></span><br><span class="line">      <span class="comment">//  "x": Transition to M5 at offset 16</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">this</span>.y = x</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Map M5</span></span><br><span class="line">      <span class="comment">//  "y": Field at offset 12</span></span><br><span class="line">      <span class="comment">//  "x": Field at offset 16</span></span><br><span class="line">      <span class="keyword">this</span>.x = y</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>M0</code> 将会有两个 <em>transitions</em> 链， 形成 <em>transitions</em> 树</li>
+<li>如果使用同一个构造函数创建含有大量的且顺序不固定属性的对象或者删除属性时， <code>V8</code> 将会进入字典模式，将属性存储在 <code>hashtable</code> 中，以防止创建大量 <code>map</code>。</li>
+</ul>
+<h3 id="In-object-Slack-Tracking"><a href="#In-object-Slack-Tracking" class="headerlink" title="In-object Slack Tracking"></a>In-object Slack Tracking</h3><h3 id="Methods-And-Prototypes"><a href="#Methods-And-Prototypes" class="headerlink" title="Methods And Prototypes"></a>Methods And Prototypes</h3><h1 id="REFERENCES"><a href="#REFERENCES" class="headerlink" title="REFERENCES"></a>REFERENCES</h1><p><a href="https://v8.dev/blog/elements-kinds" target="_blank" rel="noopener">Elements kinds in V8</a><br><a href="https://v8.dev/blog/hash-code" target="_blank" rel="noopener">Optimizing hash tables: hiding the hash code</a><br><a href="https://v8.dev/blog/fast-properties" target="_blank" rel="noopener">Fast properties in V8</a><br><a href="http://jayconrod.com/posts/52/a-tour-of-v8-object-representation" target="_blank" rel="noopener">A tour of V8: object representation</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/v8/" rel="tag"><i class="fa fa-tag"></i> v8</a>
+          
+            <a href="/tags/browser/" rel="tag"><i class="fa fa-tag"></i> browser</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/30/jitdefensebypass/" rel="next" title="Bypassing Defenses in Browser JIT Engines 摘记">
+                <i class="fa fa-chevron-left"></i> Bypassing Defenses in Browser JIT Engines 摘记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="V4kst1z">
+            
+              <p class="site-author-name" itemprop="name">V4kst1z</p>
+              <p class="site-description motion-element" itemprop="description">Bin Dog</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Vsane" title="GitHub &rarr; https://github.com/Vsane" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/v4kst1z" title="Twitter &rarr; https://twitter.com/v4kst1z" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/qq_29343201" title="https://blog.csdn.net/qq_29343201" rel="noopener" target="_blank">Anciety</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://aryb1n.github.io/" title="https://aryb1n.github.io/" rel="noopener" target="_blank">Aryb1n</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://dwfault-blog.imwork.net:30916/" title="http://dwfault-blog.imwork.net:30916/" rel="noopener" target="_blank">dwfault</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://52yuluo.top/" title="http://52yuluo.top/" rel="noopener" target="_blank">Yuluo</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Types"><span class="nav-number">1.</span> <span class="nav-text">Data Types</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Efficiently-Representing-Values-and-Tagging"><span class="nav-number">1.1.</span> <span class="nav-text">Efficiently Representing Values and Tagging</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Objects"><span class="nav-number">1.2.</span> <span class="nav-text">Objects</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Structure"><span class="nav-number">1.2.1.</span> <span class="nav-text">Structure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-Properties"><span class="nav-number">1.2.2.</span> <span class="nav-text">Object Properties</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashTables-and-Hash-Codes"><span class="nav-number">1.2.3.</span> <span class="nav-text">HashTables and Hash Codes</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Hiding-the-hash-code"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">Hiding the hash code</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#The-properties-backing-store-is-empty"><span class="nav-number">1.2.3.1.1.</span> <span class="nav-text">The properties backing store is empty</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#The-properties-backing-store-is-an-array"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">The properties backing store is an array</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#The-properties-backing-store-is-a-dictionary"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">The properties backing store is a dictionary</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fast-In-Object-Properties"><span class="nav-number">1.2.4.</span> <span class="nav-text">Fast, In-Object Properties</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Assigning-Properties-inside-Constructor-Call"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">Assigning Properties inside Constructor Call</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Assigning-More-Properties-Later"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">Assigning More Properties Later</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Assigning-Same-Properties-in-Different-Order"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">Assigning Same Properties in Different Order</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#In-object-Slack-Tracking"><span class="nav-number">1.2.5.</span> <span class="nav-text">In-object Slack Tracking</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Methods-And-Prototypes"><span class="nav-number">1.2.6.</span> <span class="nav-text">Methods And Prototypes</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#REFERENCES"><span class="nav-number">2.</span> <span class="nav-text">REFERENCES</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">V4kst1z</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+
+
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function (item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: '3awIpSk2hfHaeA1glDs5NtYG-gzGzoHsz',
+    appKey: '6ORiR0zVaYi0ljkwUfSn0aWG',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
